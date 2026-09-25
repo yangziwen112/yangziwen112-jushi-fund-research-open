@@ -50,7 +50,7 @@ python -m unittest discover -s tests -v
 
 项目的来源分层、基金名称检索和实时估值研究参考了 [hzm0321/real-time-fund](https://github.com/hzm0321/real-time-fund)；基金研究和回测边界参考了 [daggerFS/xalpha](https://github.com/daggerFS/xalpha)；公开金融数据适配参考了 [akfamily/akshare](https://github.com/akfamily/akshare)；状态流和失败分支的工程思路参考了 [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)。
 
-本仓库没有复制这些项目的源代码或数据文件，具体致谢和许可证说明见 [NOTICE.md](NOTICE.md)。
+本仓库没有复制这些项目的源代码或数据文件，具体致谢和许可证说明见 [NOTICE.md](NOTICE.md)。仓库根目录的 `LICENSE` 为远端仓库预置的 CC0 1.0；本项目新增代码的 MIT 文本保存在 [LICENSE-MIT](LICENSE-MIT) 中。
 
 ## 简历中可使用的描述
 
