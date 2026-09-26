@@ -35,6 +35,24 @@ class NavChainTests(unittest.TestCase):
         self.assertEqual(result.status, DataStatus.CACHE)
         self.assertEqual(result.selected_source, "cache")
 
+    def test_all_sources_failed_without_cache_returns_insufficient(self):
+        result = fetch_with_fallback(
+            [("primary", lambda: []), ("fallback", lambda: [])]
+        )
+        self.assertEqual(result.status, DataStatus.INSUFFICIENT)
+        self.assertIsNone(result.selected_source)
+        self.assertEqual(len(result.points), 0)
+
+    def test_common_date_separators_are_normalized(self):
+        rows = validate_nav_rows(
+            [
+                {"date": "2024/01/02", "nav": "1.10"},
+                {"date": "2024.01.03", "nav": "1.20"},
+            ],
+            source="primary",
+        )
+        self.assertEqual([row.trading_date.isoformat() for row in rows], ["2024-01-02", "2024-01-03"])
+
 
 if __name__ == "__main__":
     unittest.main()

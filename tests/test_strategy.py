@@ -25,6 +25,12 @@ class StrategyTests(unittest.TestCase):
         self.assertEqual(result.test_rows, 40)
         self.assertIsNotNone(result.strategy_max_drawdown)
 
+    def test_oos_result_keeps_risk_disclaimer(self):
+        result = backtest_ma20_oos(points(100), min_train_rows=20, min_test_rows=10)
+        self.assertIsNotNone(result.strategy_return)
+        self.assertTrue(result.warning)
+        self.assertIn("not investment advice", result.warning)
+
 
 if __name__ == "__main__":
     unittest.main()
