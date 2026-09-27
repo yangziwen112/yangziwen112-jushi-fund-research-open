@@ -1,0 +1,23 @@
+name: 研究改进建议
+description: 提出可复现的数据、评测或研究设计改进
+title: "[Research] "
+labels: [research, needs-evidence]
+body:
+  - type: textarea
+    id: hypothesis
+    attributes:
+      label: 研究假设
+      description: 请说明要验证的假设和为什么值得验证。
+    validations:
+      required: true
+  - type: textarea
+    id: protocol
+    attributes:
+      label: 验证协议
+      description: 请说明数据来源、时间切分、基线、指标和样本量。
+    validations:
+      required: true
+  - type: textarea
+    id: limits
+    attributes:
+      label: 限制与风险

@@ -1,0 +1,25 @@
+name: 可复现缺陷
+description: 报告数据校验、降级链或研究计算中的可复现问题
+title: "[Bug] "
+labels: [bug, needs-triage]
+body:
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 最小复现
+      description: 请给出输入记录、调用方式和实际输出，不要上传密钥或个人数据。
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望与实际
+    validations:
+      required: true
+  - type: input
+    id: command
+    attributes:
+      label: 验证命令
+      placeholder: python -m unittest discover -s tests -v
+    validations:
+      required: true
