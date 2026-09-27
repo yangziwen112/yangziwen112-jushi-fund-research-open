@@ -406,6 +406,15 @@ python -m unittest discover -s tests -v
 - [SOURCES.md](SOURCES.md)
 - [NOTICE.md](NOTICE.md)
 
+## Research audit contract
+
+The repository now exposes a machine-readable audit layer through
+`jushi_fund_research.audit`. It summarizes source status, selected provider,
+date coverage, fallback attempts, train/test boundaries and research limits.
+The result is explicitly classified as `research_only` or `insufficient_data`;
+it is not a trading signal and does not replace the source validation rules.
+See [docs/research-audit.md](docs/research-audit.md) for the contract and usage.
+
 ## 当前限制
 
 为了保持仓库内容可验证，以下能力没有在 README 中包装成已经完成的代码功能：
