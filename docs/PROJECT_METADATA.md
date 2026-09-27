@@ -1,5 +1,7 @@
 # 聚势基金投研项目元信息
 
+发布与仓库维护遵循 [repository-growth-playbook.md](repository-growth-playbook.md)，状态记录在 [repository-growth.yml](repository-growth.yml)。
+
 ## 项目定位
 
 这是“聚势”基金投研与持仓管理产品的数据质量、降级链和样本外研究参考层。仓库聚焦可验证的底层能力，不保存用户持仓截图或第三方账户凭证，也不提供自动交易。

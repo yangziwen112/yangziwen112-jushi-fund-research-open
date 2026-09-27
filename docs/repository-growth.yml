@@ -1,0 +1,36 @@
+playbook_version: "1.0.0"
+repository: "yangziwen112/yangziwen112-jushi-fund-research-open"
+project: "Jushi auditable fund research"
+description: "可审计的基金数据质量、降级链与样本外研究参考实现"
+topics:
+  - fund-research
+  - financial-data
+  - quant-research
+  - backtesting
+  - out-of-sample
+  - data-quality
+  - research-audit
+  - fallback-chain
+  - python
+  - risk-management
+  - financial-ai
+  - investment-research
+readme:
+  value_proposition: verified
+  real_demo: pending
+  quickstart: verified
+  english_quickstart: pending
+  limitations: verified
+distribution:
+  awesome_list_pr: pending
+  technical_article: pending
+  video_demo: pending
+  spam_free: verified
+maintenance:
+  issue_response: planned
+  release_notes: planned
+  monthly_metadata_review: planned
+integrity:
+  no_fake_stars: true
+  no_fake_metrics: true
+  no_secrets: true
