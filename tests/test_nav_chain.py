@@ -53,6 +53,21 @@ class NavChainTests(unittest.TestCase):
         )
         self.assertEqual([row.trading_date.isoformat() for row in rows], ["2024-01-02", "2024-01-03"])
 
+    def test_source_below_min_rows_is_rejected_and_fallback_is_used(self):
+        result = fetch_with_fallback(
+            [
+                ("primary", lambda: [{"date": "2024-01-02", "nav": 1.1}]),
+                ("fallback", lambda: [
+                    {"date": "2024-01-02", "nav": 1.1},
+                    {"date": "2024-01-03", "nav": 1.2},
+                ]),
+            ],
+            min_rows=2,
+        )
+        self.assertEqual(result.status, DataStatus.FALLBACK)
+        self.assertEqual(result.selected_source, "fallback")
+        self.assertEqual(result.attempts[0].status, "rejected")
+
 
 if __name__ == "__main__":
     unittest.main()
