@@ -25,6 +25,7 @@ def summarize_nav_chain(result: NavChainResult) -> dict[str, Any]:
             "accepted_rows": attempt.accepted_rows,
             "status": attempt.status,
             "observed_at": _iso(attempt.observed_at),
+            "duration_ms": attempt.duration_ms,
             "error_present": bool(attempt.error),
         }
         for attempt in result.attempts

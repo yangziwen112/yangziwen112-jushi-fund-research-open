@@ -26,6 +26,8 @@ class NavChainTests(unittest.TestCase):
         self.assertEqual(result.status, DataStatus.FALLBACK)
         self.assertEqual(result.selected_source, "fallback")
         self.assertEqual(len(result.attempts), 2)
+        self.assertIsNotNone(result.attempts[0].duration_ms)
+        self.assertGreaterEqual(result.attempts[0].duration_ms, 0)
 
     def test_cache_is_not_called_a_live_source(self):
         result = fetch_with_fallback(

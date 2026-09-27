@@ -26,6 +26,7 @@ class AuditTests(unittest.TestCase):
         self.assertEqual(summary["coverage_start"], "2024-01-02")
         self.assertEqual(summary["coverage_end"], "2024-01-03")
         self.assertEqual(summary["attempts"][0]["error_present"], False)
+        self.assertIn("duration_ms", summary["attempts"][0])
 
     def test_fallback_and_insufficient_are_distinguishable(self):
         fallback = fetch_with_fallback([

@@ -36,6 +36,7 @@ class SourceAttempt:
     status: str
     error: str | None = None
     observed_at: datetime | None = None
+    duration_ms: float | None = None
 
 
 def _parse_date(value: Any) -> date:

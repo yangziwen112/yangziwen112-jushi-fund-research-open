@@ -415,6 +415,10 @@ The result is explicitly classified as `research_only` or `insufficient_data`;
 it is not a trading signal and does not replace the source validation rules.
 See [docs/research-audit.md](docs/research-audit.md) for the contract and usage.
 
+Per-source latency is also retained as `duration_ms` in each audit attempt;
+see [docs/source-observability.md](docs/source-observability.md) for the
+operational interpretation and privacy boundary.
+
 ## 当前限制
 
 为了保持仓库内容可验证，以下能力没有在 README 中包装成已经完成的代码功能：
