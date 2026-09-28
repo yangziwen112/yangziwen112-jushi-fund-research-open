@@ -13,6 +13,14 @@ def points(count):
 
 
 class StrategyTests(unittest.TestCase):
+    def test_invalid_parameters_are_rejected(self):
+        with self.assertRaises(ValueError):
+            backtest_ma20_oos(points(100), train_ratio=0)
+        with self.assertRaises(ValueError):
+            backtest_ma20_oos(points(100), window=0)
+        with self.assertRaises(ValueError):
+            backtest_ma20_oos(points(100), min_test_rows=0)
+
     def test_small_sample_is_rejected(self):
         result = backtest_ma20_oos(points(30))
         self.assertEqual(result.status, "insufficient_sample")
