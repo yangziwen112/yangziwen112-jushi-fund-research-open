@@ -465,3 +465,7 @@ operational interpretation and privacy boundary.
 仓库新增代码采用 MIT 许可，详见 [LICENSE-MIT](LICENSE-MIT)。仓库中已有的许可证文件、第三方项目代码、外部数据服务、商标和接口条款不因本项目引用而改变。
 
 本项目仅用于软件工程、数据质量和研究方法展示，不构成投资建议，不自动执行交易，也不承诺任何收益。使用真实数据时，请自行核对数据源、接口条款、数据时效和研究结论的适用范围。
+
+### Maintenance note
+
+- Last repository maintenance: 2026-09-28 (Asia/Shanghai).
