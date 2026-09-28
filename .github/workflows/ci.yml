@@ -17,9 +17,16 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    concurrency:
+      group: fund-research-ci-${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
     strategy:
+      fail-fast: false
       matrix:
-        python-version: ['3.10', '3.11', '3.12']
+        python-version: ['3.10', '3.11', '3.12', '3.13']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -30,5 +37,5 @@ jobs:
         run: |
           export PYTHONPATH=src
           python -m unittest discover -s tests -v
-      - name: Check patch whitespace
-        run: git diff --check
+      - name: Compile package
+        run: python -m compileall -q src

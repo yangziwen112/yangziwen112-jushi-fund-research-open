@@ -1,7 +1,7 @@
 # 聚势：可审计的基金数据与策略研究开源参考实现
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-9%20passed-2ea44f)
+![Tests](https://img.shields.io/badge/tests-14%20passed-2ea44f)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
 > 这是“聚势”AI 基金投研与持仓管理平台的开源 companion project：把基金数据接入、质量校验、来源降级和策略验证中最需要被解释的部分拆出来，做成一个可以阅读、运行和复核的 Python 参考实现。
