@@ -27,3 +27,15 @@ or reproducibility improvement that can be reviewed independently.
 
 Avoid empty commits, fabricated metrics, generated noise, and unreviewed bulk
 rewrites. Push only after local tests and the intended diff have been checked.
+
+## Automation
+
+- GitHub Actions runs the verification workflow once per day and can also be
+  started with `workflow_dispatch`.
+- The workflow runs the test suite, compiles the package, checks the diff, and
+  uploads the log as an artifact. It does not create commits or change code.
+- Windows users can run the same check with:
+
+```powershell
+.\scripts\daily-maintenance.ps1 -Python "C:\Python314\python.exe"
+```

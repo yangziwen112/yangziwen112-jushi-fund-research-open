@@ -1,0 +1,33 @@
+name: daily-maintenance-check
+
+on:
+  schedule:
+    - cron: '17 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - name: Run repository maintenance check
+        shell: bash
+        run: |
+          export PYTHONPATH=src
+          python -m unittest discover -s tests -v 2>&1 | tee daily-maintenance.log
+          python -m compileall -q src 2>&1 | tee -a daily-maintenance.log
+          git diff --check 2>&1 | tee -a daily-maintenance.log
+      - name: Upload maintenance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-maintenance-${{ github.run_id }}
+          path: daily-maintenance.log
+          if-no-files-found: warn
