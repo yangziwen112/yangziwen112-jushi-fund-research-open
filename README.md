@@ -1,7 +1,7 @@
 # 聚势：可审计的基金数据与策略研究开源参考实现
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-14%20passed-2ea44f)
+![Tests](https://img.shields.io/badge/tests-16%20passed-2ea44f)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
 > 这是“聚势”AI 基金投研与持仓管理平台的开源 companion project：把基金数据接入、质量校验、来源降级和策略验证中最需要被解释的部分拆出来，做成一个可以阅读、运行和复核的 Python 参考实现。
@@ -231,7 +231,7 @@ Agent 不应该直接读取一段没有来源的自由文本。更稳妥的方�
 
 ## 已验证内容
 
-当前仓库已通过 9 项单元测试，测试不是为了制造一个漂亮的覆盖率数字，而是覆盖数据链最容易静默出错的分支：
+当前仓库已通过 16 项单元测试，测试不是为了制造一个漂亮的覆盖率数字，而是覆盖数据链、审计摘要和策略边界最容易静默出错的分支：
 
 | 验证项 | 当前结论 |
 |---|---|
@@ -259,7 +259,7 @@ $env:PYTHONPATH = "src"
 预期结果：
 
 ```text
-Ran 9 tests ... OK
+Ran 16 tests ... OK
 ```
 
 ## 聚势平台的真实研究结果与仓库测试结果
@@ -342,10 +342,12 @@ fund-research-open/
 │       ├── __init__.py
 │       ├── data_policy.py     # 数据状态、日期/净值规范化与校验
 │       ├── nav_chain.py       # 多源净值、备用源与缓存降级
-│       └── strategy.py        # MA20 与 60/40 样本外回测
+│       ├── strategy.py        # MA20 与 60/40 样本外回测
+│       └── audit.py           # 可序列化研究审计摘要
 └── tests/
     ├── test_nav_chain.py
-    └── test_strategy.py
+    ├── test_strategy.py
+    └── test_audit.py
 ```
 
 核心模块只依赖 Python 标准库。FastAPI、SQLite、Electron、OCR 和前端组件可以放在外层应用中，不会反向污染研究规则，这使得同一套策略逻辑可以被接口服务、命令行脚本和离线研究任务复用。
@@ -468,4 +470,4 @@ operational interpretation and privacy boundary.
 
 ### Maintenance note
 
-- Last repository maintenance: 2026-09-28 (Asia/Shanghai).
+- Last repository maintenance: 2026-09-29 (Asia/Shanghai).

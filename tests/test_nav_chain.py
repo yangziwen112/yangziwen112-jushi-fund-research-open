@@ -70,6 +70,25 @@ class NavChainTests(unittest.TestCase):
         self.assertEqual(result.selected_source, "fallback")
         self.assertEqual(result.attempts[0].status, "rejected")
 
+    def test_invalid_cache_is_recorded_and_returns_insufficient(self):
+        def exploding_cache():
+            if False:
+                yield {}
+            raise RuntimeError("cache read failed")
+
+        result = fetch_with_fallback(
+            [("primary", lambda: (_ for _ in ()).throw(RuntimeError("offline")))],
+            cache=exploding_cache(),
+        )
+        self.assertEqual(result.status, DataStatus.INSUFFICIENT)
+        self.assertEqual(result.selected_source, None)
+        self.assertEqual(result.attempts[-1].source, "cache")
+        self.assertEqual(result.attempts[-1].status, "failed")
+
+    def test_min_rows_must_be_positive(self):
+        with self.assertRaises(ValueError):
+            fetch_with_fallback([], min_rows=0)
+
 
 if __name__ == "__main__":
     unittest.main()

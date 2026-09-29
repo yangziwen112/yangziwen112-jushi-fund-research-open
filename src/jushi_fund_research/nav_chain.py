@@ -39,6 +39,9 @@ def fetch_with_fallback(
     fail; the caller receives ``INSUFFICIENT`` and the audit trail.
     """
 
+    if min_rows < 1:
+        raise ValueError("min_rows must be at least 1")
+
     attempts: list[SourceAttempt] = []
     for index, (name, fetcher) in enumerate(sources):
         observed_at = now_utc()
@@ -75,25 +78,44 @@ def fetch_with_fallback(
     if cache is not None:
         observed_at = now_utc()
         started = perf_counter()
-        points = validate_nav_rows(cache, source="cache")
-        duration_ms = round((perf_counter() - started) * 1000, 3)
-        if len(points) >= min_rows:
+        try:
+            # Materialize the cache once so an all-invalid non-empty cache can
+            # be distinguished from an intentionally empty cache in the audit.
+            raw_cache = list(cache)
+            points = validate_nav_rows(raw_cache, source="cache")
+            duration_ms = round((perf_counter() - started) * 1000, 3)
+            if len(points) >= min_rows:
+                attempts.append(
+                    SourceAttempt(
+                        "cache", len(points), DataStatus.CACHE.value,
+                        observed_at=observed_at, duration_ms=duration_ms,
+                    )
+                )
+                return NavChainResult(
+                    tuple(points), DataStatus.CACHE, "cache", tuple(attempts),
+                    "live sources unavailable; using validated local cache",
+                )
+            if raw_cache and not points:
+                attempts.append(
+                    SourceAttempt(
+                        "cache", 0, "failed", "cache contains no valid rows",
+                        observed_at, duration_ms,
+                    )
+                )
+            else:
+                attempts.append(
+                    SourceAttempt(
+                        "cache", len(points), "rejected", "not enough valid rows",
+                        observed_at, duration_ms,
+                    )
+                )
+        except Exception as exc:
             attempts.append(
                 SourceAttempt(
-                    "cache", len(points), DataStatus.CACHE.value,
-                    observed_at=observed_at, duration_ms=duration_ms,
+                    "cache", 0, "failed", str(exc), observed_at,
+                    round((perf_counter() - started) * 1000, 3),
                 )
             )
-            return NavChainResult(
-                tuple(points), DataStatus.CACHE, "cache", tuple(attempts),
-                "live sources unavailable; using validated local cache",
-            )
-        attempts.append(
-            SourceAttempt(
-                "cache", len(points), "rejected", "not enough valid rows",
-                observed_at, duration_ms,
-            )
-        )
 
     return NavChainResult(
         tuple(), DataStatus.INSUFFICIENT, None, tuple(attempts),
