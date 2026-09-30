@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from math import isfinite
 from typing import Sequence
 
 from .data_policy import NormalizedNav
@@ -42,6 +43,25 @@ def _validate_parameters(
         raise ValueError("window must be a positive integer")
     if min_train_rows < 1 or min_test_rows < 1:
         raise ValueError("minimum sample sizes must be positive")
+
+
+def _prepare_ordered(points: Sequence[NormalizedNav]) -> list[NormalizedNav]:
+    """Validate the strategy boundary and collapse duplicate trading dates.
+
+    ``validate_nav_rows`` already applies this policy to adapter input, but
+    callers can also construct ``NormalizedNav`` objects directly. Keeping
+    the same last-observation-wins rule here prevents duplicate dates or
+    non-positive values from silently distorting daily returns.
+    """
+
+    unique: dict[object, NormalizedNav] = {}
+    for point in points:
+        if not isinstance(point, NormalizedNav):
+            raise TypeError("points must contain NormalizedNav values")
+        if not isfinite(point.nav) or point.nav <= 0:
+            raise ValueError("NAV must be a finite positive number")
+        unique[point.trading_date] = point
+    return sorted(unique.values(), key=lambda point: point.trading_date)
 
 
 def _simulate_test_equity(
@@ -89,7 +109,7 @@ def backtest_ma20_oos(
     """
 
     _validate_parameters(train_ratio, window, min_train_rows, min_test_rows)
-    ordered = sorted(points, key=lambda point: point.trading_date)
+    ordered = _prepare_ordered(points)
     split = int(len(ordered) * train_ratio)
     train = ordered[:split]
     test = ordered[split:]

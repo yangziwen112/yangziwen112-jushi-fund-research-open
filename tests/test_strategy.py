@@ -39,6 +39,19 @@ class StrategyTests(unittest.TestCase):
         self.assertTrue(result.warning)
         self.assertIn("not investment advice", result.warning)
 
+    def test_direct_inputs_deduplicate_trading_dates(self):
+        raw = points(100)
+        raw.insert(60, raw[59])
+        result = backtest_ma20_oos(raw, min_train_rows=20, min_test_rows=10)
+        self.assertEqual(result.train_rows, 60)
+        self.assertEqual(result.test_rows, 40)
+
+    def test_direct_inputs_reject_non_positive_nav(self):
+        raw = points(100)
+        raw[10] = NormalizedNav(raw[10].trading_date, 0, "test")
+        with self.assertRaises(ValueError):
+            backtest_ma20_oos(raw, min_train_rows=20, min_test_rows=10)
+
 
 if __name__ == "__main__":
     unittest.main()
