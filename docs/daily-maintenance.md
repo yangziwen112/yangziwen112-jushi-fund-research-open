@@ -16,6 +16,16 @@ or reproducibility improvement that can be reviewed independently.
 - Next candidate: add a small adapter contract test for source timestamps and
   duplicate-date handling.
 
+## 2026-09-30
+
+- Area: adapter contract and audit timestamps.
+- Change: added regression coverage for timezone-aware adapter dates, source
+  preservation, and timezone-aware `SourceAttempt.observed_at` values.
+- Evidence: `tests/test_data_contract.py`; the test suite must pass before the
+  change is committed or pushed.
+- Multi-agent handoff: OpenClaw may review source and risk semantics, while
+  Codex owns the local implementation, tests, commit SHA, and push evidence.
+
 ## Suggested daily rotation
 
 1. Fix one reproducible edge case and add a regression test.
